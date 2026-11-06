@@ -1,0 +1,38 @@
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#05070f;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;user-select:none;touch-action:none}
+canvas{position:fixed;inset:0;width:100vw;height:100vh;object-fit:contain;background:#05070f}
+.hidden{display:none!important}
+
+#hud{position:fixed;inset:0;pointer-events:none}
+#board{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:linear-gradient(#10131f,#05070f);border:2px solid #3a4260;border-radius:12px;padding:6px 18px;box-shadow:0 6px 24px #000a}
+.team{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:1px;min-width:120px}
+.team:last-child{justify-content:flex-end}
+.team b{font:700 40px 'Courier New',monospace;color:#ffcf33;text-shadow:0 0 12px #ff9d00;background:#000;border-radius:6px;padding:0 10px;min-width:62px;text-align:center}
+#mid{text-align:center;min-width:130px}
+#info{display:block;font-size:11px;color:#9fb0e0;letter-spacing:1px}
+.pips{display:flex;justify-content:space-between;font-size:13px;color:#7fd0ff;margin-top:2px}
+#btnMenu{pointer-events:auto;position:absolute;top:12px;left:12px;background:#10131fcc;color:#fff;border:1px solid #3a4260;border-radius:8px;padding:6px 12px;cursor:pointer}
+#toast{position:absolute;top:26%;left:50%;transform:translateX(-50%);font:900 46px 'Segoe UI',sans-serif;text-shadow:0 4px 18px #000,0 0 22px #ff9d00;opacity:0;transition:opacity .25s;white-space:nowrap}
+#toast.on{opacity:1}
+#hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:#000a;padding:6px 14px;border-radius:20px;font-size:13px;color:#cfe0ff;white-space:nowrap}
+
+.overlay{position:fixed;inset:0;display:flex;overflow:auto;background:radial-gradient(#1b2a55e6,#05070ff2);z-index:10}
+.panel{margin:auto;width:min(760px,94vw);text-align:center;padding:26px;background:#0d1226d9;border:2px solid #3a4a8a;border-radius:18px;box-shadow:0 0 50px #2f6df644}
+h1{font-size:44px;letter-spacing:4px;text-shadow:0 0 22px #2f6df6;margin-bottom:4px}
+.sub{color:#9fb0e0;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.grid button{background:linear-gradient(#2f6df6,#1b45a8);color:#fff;border:0;border-radius:12px;padding:14px;font:700 18px 'Segoe UI';cursor:pointer;transition:transform .12s,filter .12s}
+.grid button:hover{transform:translateY(-3px);filter:brightness(1.2)}
+.grid button small{display:block;font-weight:400;font-size:12px;opacity:.8;margin-top:3px}
+.opts{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:18px 0 10px;font-size:14px}
+.opts select{background:#10131f;color:#fff;border:1px solid #3a4260;border-radius:6px;padding:4px 8px;margin-left:6px}
+.keys{font-size:12.5px;color:#9fb0e0;line-height:1.6;text-align:left;background:#00000040;border-radius:10px;padding:10px 14px}
+
+#touch{display:none;position:fixed;inset:auto 0 0 0;padding:10px;justify-content:space-between;align-items:flex-end;pointer-events:none;z-index:5}
+body.touch #touch{display:flex}
+.pad{display:flex;gap:8px;flex-wrap:wrap;pointer-events:auto}
+.pad.right{max-width:300px;justify-content:flex-end}
+.pad button{width:64px;height:64px;border-radius:50%;border:2px solid #fff6;background:#2f6df699;color:#fff;font:700 12px 'Segoe UI';display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pad.left button{width:78px;height:78px;font-size:26px}
+.pad button:active{background:#ffcf33cc;color:#000}
+@media(max-width:800px){h1{font-size:30px}#toast{font-size:30px}.team b{font-size:28px}}
