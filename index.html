@@ -20,6 +20,7 @@ button:hover{background:#800}
 #msg{position:absolute;top:14%;width:100%;text-align:center;font-size:22px;opacity:0;transition:opacity .4s}
 #big{position:absolute;top:30%;width:100%;text-align:center;font-size:clamp(26px,5vw,54px);color:#ffd23f;text-shadow:0 0 25px #f90;opacity:0;transition:opacity .5s;font-weight:bold}
 #tbl{max-height:50vh;overflow:auto;font-family:monospace;font-size:15px;line-height:1.6;text-align:left}
+#mpst{position:absolute;top:12px;right:14px;font-size:13px;color:#8cf}
 #scope{position:absolute;inset:0;display:none;background:radial-gradient(circle at center,transparent 24%,#000 25%)}
 #hit{position:absolute;left:50%;top:50%;margin:16px 0 0 16px;color:#f55;font-size:18px;font-weight:bold}
 #wbar{position:absolute;bottom:84px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
@@ -34,7 +35,7 @@ input{font:inherit;font-size:22px;padding:10px;text-align:center;background:#111
 #am{font-size:40px;font-weight:bold}
 </style></head><body>
 <div id="hud">
- <div id="info"></div><div id="cross"></div><div id="prompt"></div><div id="msg"></div><div id="big"></div><div id="dmg"></div><div id="hit"></div><div id="scope"></div><div id="wbar"></div>
+ <div id="info"></div><div id="cross"></div><div id="prompt"></div><div id="msg"></div><div id="big"></div><div id="dmg"></div><div id="hit"></div><div id="scope"></div><div id="mpst"></div><div id="wbar"></div>
  <div id="hpw">VIDA <b id="hpt">100</b><div id="hpb"><i id="hpf"></i></div><div id="stb"><i id="stf"></i></div><span id="meds"></span></div>
  <div id="ammo"><div id="wn"></div><div id="am"></div></div>
 </div>
@@ -212,7 +213,7 @@ function shoot(){if(P.hand){useItem();P.firing=false;return}const w=WP[P.cur],s=
   if(o.userData.z){dmgZ(o.userData.z,w.dmg*RM(s)*(o.userData.head?2:1)*(w.pel>1?Math.max(.35,1-h.distance/60):1));burst(h.point,0x8a0a0a,6,3);hitT=.12}else burst(h.point,0xaaaaaa,4,3)}}
 function hurtP(d){if(P.esc)return;if(P.blk&&P.st>0){P.st-=16;tn(300,150,.1,.5,'square');d*=.15;if(P.st<=0){P.st=0;P.tired=true;P.ads=false;msg('¡Guardia rota!')}}P.hp-=d;snd.hurt();$('dmg').style.opacity=1;setTimeout(()=>$('dmg').style.opacity=0,120);if(P.hp<=0){P.hp=0;finish(false)}}
 
-function resetGame(){zombies.forEach(z=>scene.remove(z.g));picks.forEach(p=>scene.remove(p.m));zombies=[];picks=[];drops.forEach(d=>scene.remove(d.m));drops.length=0;pools.splice(0).forEach(q=>scene.remove(q.m));rocks.splice(0).forEach(q=>scene.remove(q.m));P=newPlayer();wbs='';setExit(false);
+function resetGame(){zombies.forEach(z=>scene.remove(z.g));picks.forEach(p=>scene.remove(p.m));zombies=[];picks=[];drops.forEach(d=>scene.remove(d.m));drops.length=0;pools.splice(0).forEach(q=>scene.remove(q.m));rocks.splice(0).forEach(q=>scene.remove(q.m));P=newPlayer();wbs='';setExit(false);if(SPEED)addItem('comida',2);
  for(const k in WM)WM[k].visible=k=='pistol';
  chests.forEach(c=>{c.open=false;c.lid.rotation.x=0;c.loot=rollLoot()});
  setupPieces();for(let i=0;i<10;i++){let x,z,n=0;do{x=R(-115,115);z=R(-115,115)}while(blocked(x,z,1)&&n++<30);dropAt(pick(['bate','tubo','sarten']),x,z,0)}
@@ -307,7 +308,7 @@ function play(){audioInit();NAME=getName();resetGame();state='playing';setScr(''
 function pause(){if(state!='playing')return;state='paused';P.firing=false;P.ads=false;setScr('pause')}
 function resume(){state='playing';setScr('');lock()}
 function toMenu(){mpLeave();state='menu';$('hud').style.display='none';setScr('menu')}
-$('b1').onclick=()=>{mpLeave();SPEED=false;play()};$('b12').onclick=()=>{mpLeave();SPEED=true;play()};$('b13').onclick=()=>{renderTop();setScr('top')};$('b14').onclick=()=>setScr('menu');try{$('pname').value=localStorage.getItem('zs_name')||''}catch(e){}$('b9').onclick=()=>setScr('mp');$('b11').onclick=()=>setScr('menu');$('b10').onclick=async()=>{audioInit();let c=$('code').value.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,8);if(!c){c=Math.random().toString(36).slice(2,6);$('code').value=c}$('mps').textContent='Conectando…';const ok=await mpJoin(c);if(!ok){if(!$('mps').textContent.startsWith('Error'))$('mps').textContent='Multijugador no disponible. Abre la página desde su enlace publicado (los amigos necesitan que la compartas con el botón Compartir).';return}$('mps').textContent='Sala «'+c+'». Comparte el código. Entrando…';setTimeout(play,1600)};$('b2').onclick=()=>setScr('help');$('b3').onclick=()=>setScr('menu');$('b4').onclick=resume;$('b5').onclick=play;$('b6').onclick=toMenu;$('b7').onclick=play;$('b8').onclick=toMenu;
+$('b1').onclick=()=>{mpLeave();SPEED=false;play()};$('b12').onclick=()=>{mpLeave();SPEED=true;play()};$('b13').onclick=()=>{renderTop();setScr('top')};$('b14').onclick=()=>setScr('menu');try{$('pname').value=localStorage.getItem('zs_name')||''}catch(e){}$('b9').onclick=()=>setScr('mp');$('b11').onclick=()=>setScr('menu');$('b10').onclick=async()=>{audioInit();let c=$('code').value.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,8);if(!c){c=Math.random().toString(36).slice(2,6);$('code').value=c}$('mps').textContent='Conectando…';const ok=await mpJoin(c);if(!ok){if(!$('mps').textContent.startsWith('Error'))$('mps').textContent='No se pudo conectar a la sala. El multijugador solo funciona con sesión iniciada y acceso al artefacto: invíta a tus amigos desde Compartir con permiso de Colaborador (el enlace público no sirve).';return}MP.code=c;$('mps').textContent='Sala «'+c+'». Comparte el código. Entrando…';setTimeout(play,1600)};$('b2').onclick=()=>setScr('help');$('b3').onclick=()=>setScr('menu');$('b4').onclick=resume;$('b5').onclick=play;$('b6').onclick=toMenu;$('b7').onclick=play;$('b8').onclick=toMenu;
 document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement!==cv&&state=='playing')pause()});
 addEventListener('mousemove',e=>{if(state=='playing'){const ms=.0022*(P.ads?cam.fov/75:1);P.yaw-=e.movementX*ms;P.pitch=cl(P.pitch-e.movementY*ms,-1.5,1.5)}});
 addEventListener('mousedown',e=>{if(state=='playing'&&e.button==2){const w=WP[P.cur];if(w.melee&&SA[P.cur])special();else P.ads=true}if(state=='playing'&&e.button==0){if(document.pointerLockElement!==cv)lock();P.firing=true}});
@@ -329,7 +330,7 @@ function update(dt,now){
  for(const q of pp)if(q.l>0){q.l-=dt;q.v.y-=9*dt;q.m.position.addScaledVector(q.v,dt);if(q.m.position.y<0){q.m.position.y=0;q.v.multiplyScalar(.3)}if(q.l<=0)q.m.visible=false}
  if(state=='menu'||state=='dead'||state=='won'){cam.position.set(-90,7,-105);cam.rotation.set(-.1,cam.rotation.y+dt*.08,0);return}
  if(state!='playing')return;
- const t=P.t+=dt;P.boost=Math.max(0,P.boost-dt);if(P.boost>0){P.st=100;P.tired=false}for(const q of pieces)q.m.rotation.y+=dt*2;HOST=!MP||isHost();mpTick(dt,now);fxTick(dt);
+ const t=P.t+=dt;P.boost=Math.max(0,P.boost-dt);if(P.boost>0){P.st=100;P.tired=false}for(const q of pieces)q.m.rotation.y+=dt*2;HOST=!MP||isHost();mpTick(dt,now);$('mpst').textContent=MP?'Sala «'+(MP.code||'')+'» · '+MP.room.peers().length+' en línea':'';fxTick(dt);
  // movimiento
  const f=(keys.KeyW?1:0)-(keys.KeyS?1:0),r=(keys.KeyD?1:0)-(keys.KeyA?1:0),mv=f||r;P.sc=Math.max(0,(P.sc||0)-dt);P.blk=!!(P.ads&&WP[P.cur].melee&&!SA[P.cur]&&!P.hand);P.run=(!!keys.ShiftLeft||!!keys.ShiftRight)&&f>0&&!P.blk&&!P.tired&&P.st>0;if(P.run)P.st-=22*dt;else P.st=Math.min(100,P.st+(mv?10:18)*dt);if(P.st<=0){P.st=0;P.tired=true}if(P.tired&&P.st>25)P.tired=false;const sp=(P.ads?2.5:P.run?9:5)*(P.boost>0?1.15:1)*(SPEED?P.bh:1)*(P.cr?.5:1),sy=Math.sin(P.yaw),cy=Math.cos(P.yaw);
  let wx=(-sy*f+cy*r),wz=(-cy*f-sy*r);const l=Math.hypot(wx,wz)||1;wx=wx/l*sp*(mv?1:0);wz=wz/l*sp*(mv?1:0);if(P.sl>0){P.sl-=dt;const k=4+9*P.sl/.8;wx=P.sdx*k;wz=P.sdz*k}P.cr=!!keys.KeyC&&!(P.sl>0);
